@@ -17,6 +17,7 @@ from pathlib import Path
 # Paths
 # --------------------------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent
+ASSETS_DIR = BASE_DIR / "assets"
 MODEL_NAME = "pose_landmarker_lite.task"
 MODEL_URL = (
     "https://storage.googleapis.com/mediapipe-models/pose_landmarker/"
@@ -25,11 +26,11 @@ MODEL_URL = (
 
 
 def find_asset(name: str) -> Path:
-    """Look next to this script first, then in the current folder."""
-    for folder in (BASE_DIR, Path.cwd()):
+    """Look in assets/ first, then next to this script, then in the current folder."""
+    for folder in (ASSETS_DIR, BASE_DIR, Path.cwd()):
         if (folder / name).exists():
             return folder / name
-    return BASE_DIR / name
+    return ASSETS_DIR / name
 
 
 def ensure_model() -> Path:
