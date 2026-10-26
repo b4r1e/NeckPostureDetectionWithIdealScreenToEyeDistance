@@ -35,6 +35,16 @@ Aplikasi desktop yang memantau postur leher dan jarak mata ke layar secara real-
 - Webcam
 - Dependency: `customtkinter`, `mediapipe`, `opencv-contrib-python` (lihat `pyproject.toml` / `requirements.txt`)
 
+## Model Pre-trained
+
+Proyek ini menggunakan model **MediaPipe Pose Landmarker (Lite, float16)**
+yang sudah dilatih oleh Google. Model ini dipakai hanya untuk inferensi,
+sehingga proyek ini tidak memakai dataset training sendiri.
+
+- Sumber: https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/latest/pose_landmarker_lite.task
+- Lisensi: Apache 2.0
+- Lokasi file: `Source_Code/models/pose_landmarker_lite.task`
+
 ## Instalasi
 
 ### Cara utama: uv
@@ -96,3 +106,4 @@ Berdasarkan pengujian akhir yang dilakukan tim:
 ## Keterbatasan yang diketahui
 
 - Kalibrasi awal masih bisa menghasilkan false-positive jika posisi badan user berubah signifikan dari saat kalibrasi dilakukan. User perlu menekan `C` lagi (kalibrasi ulang) setelah pindah posisi duduk secara signifikan.
+
