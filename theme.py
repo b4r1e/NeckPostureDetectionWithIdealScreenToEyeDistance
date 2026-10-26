@@ -1,6 +1,3 @@
-# ==========================================================================
-# FILE 1 of 6: theme.py
-# ==========================================================================
 """
 Look and feel: colours, fonts, small helpers and reusable widgets.
 Suggested owner: P4. Imports nothing from the other project files.
@@ -13,7 +10,6 @@ import tkinter as tk
 from functools import lru_cache
 
 import customtkinter as ctk
-
 
 # --------------------------------------------------------------------------
 # Look: quiet slate surfaces, ink buttons, colour reserved for posture status
@@ -39,7 +35,12 @@ def font(size: int, bold: bool = False) -> ctk.CTkFont:
 
 def card(parent, radius: int = 18, **kw) -> ctk.CTkFrame:
     return ctk.CTkFrame(
-        parent, fg_color=CARD, corner_radius=radius, border_width=1, border_color=LINE, **kw
+        parent,
+        fg_color=CARD,
+        corner_radius=radius,
+        border_width=1,
+        border_color=LINE,
+        **kw,
     )
 
 
@@ -68,17 +69,35 @@ class SettingRow(ctk.CTkFrame):
         self.unit, self.on_change = unit, on_change
         top = ctk.CTkFrame(self, fg_color="transparent")
         top.pack(fill="x")
-        ctk.CTkLabel(top, text=title, font=font(13, True), text_color=INK).pack(side="left")
-        self.value_label = ctk.CTkLabel(top, text="", font=font(13, True), text_color=INK)
+        ctk.CTkLabel(top, text=title, font=font(13, True), text_color=INK).pack(
+            side="left"
+        )
+        self.value_label = ctk.CTkLabel(
+            top, text="", font=font(13, True), text_color=INK
+        )
         self.value_label.pack(side="right")
         self.slider = ctk.CTkSlider(
-            self, from_=lo, to=hi, number_of_steps=int(hi - lo), command=self._changed,
-            fg_color=TRACK, progress_color=INK, button_color=INK, button_hover_color=INK_HOVER, height=16,
+            self,
+            from_=lo,
+            to=hi,
+            number_of_steps=int(hi - lo),
+            command=self._changed,
+            fg_color=TRACK,
+            progress_color=INK,
+            button_color=INK,
+            button_hover_color=INK_HOVER,
+            height=16,
         )
         self.slider.pack(fill="x", pady=(8, 4))
         self.slider.set(value)
         ctk.CTkLabel(
-            self, text=hint, font=font(11), text_color=MUTED, anchor="w", justify="left", wraplength=250
+            self,
+            text=hint,
+            font=font(11),
+            text_color=MUTED,
+            anchor="w",
+            justify="left",
+            wraplength=250,
         ).pack(fill="x")
         self._show(value)
 
@@ -95,37 +114,21 @@ class SettingRow(ctk.CTkFrame):
         self._show(v)
 
 
-class ChoiceRow(SettingRow):
-    """A SettingRow whose slider snaps to named presets, e.g. [("30 s", 30), ("90 min", 5400)].
-
-    on_change receives the preset's value, not its position."""
-
-    def __init__(self, master, title, hint, choices, value, on_change):
-        index = min(range(len(choices)), key=lambda i: abs(choices[i][1] - value))
-        super().__init__(master, title, hint, 0, len(choices) - 1, index, "", on_change)
-        self.choices = choices
-        self._show(index)
-
-    def _show(self, v):
-        choices = getattr(self, "choices", None)  # not set yet while SettingRow is still building
-        if choices:
-            self.value_label.configure(text=choices[int(round(v))][0])
-
-    def _changed(self, v):
-        index = int(round(v))
-        self._show(index)
-        self.on_change(self.choices[index][1])
-
-
 class Stat(ctk.CTkFrame):
     def __init__(self, master, title):
-        super().__init__(master, fg_color=CARD, corner_radius=14, border_width=1, border_color=LINE)
-        ctk.CTkLabel(self, text=title, font=font(12), text_color=MUTED, anchor="w").pack(
-            fill="x", padx=16, pady=(12, 0)
+        super().__init__(
+            master, fg_color=CARD, corner_radius=14, border_width=1, border_color=LINE
         )
-        self.value = ctk.CTkLabel(self, text="-", font=font(26, True), text_color=INK, anchor="w")
+        ctk.CTkLabel(
+            self, text=title, font=font(12), text_color=MUTED, anchor="w"
+        ).pack(fill="x", padx=16, pady=(12, 0))
+        self.value = ctk.CTkLabel(
+            self, text="-", font=font(26, True), text_color=INK, anchor="w"
+        )
         self.value.pack(fill="x", padx=16)
-        self.sub = ctk.CTkLabel(self, text=" ", font=font(12), text_color=MUTED, anchor="w")
+        self.sub = ctk.CTkLabel(
+            self, text=" ", font=font(12), text_color=MUTED, anchor="w"
+        )
         self.sub.pack(fill="x", padx=16, pady=(0, 12))
 
     def set(self, value, sub=" ", color=INK):
@@ -140,7 +143,12 @@ class DonutChart(tk.Canvas):
         self.bind("<Configure>", lambda e: self.redraw())
 
     def set(self, pct, has_data, center, caption):
-        self.pct, self.has_data, self.center, self.caption = pct, has_data, center, caption
+        self.pct, self.has_data, self.center, self.caption = (
+            pct,
+            has_data,
+            center,
+            caption,
+        )
         self.redraw()
 
     def redraw(self):
@@ -159,9 +167,24 @@ class DonutChart(tk.Canvas):
             if self.pct >= 99.9:
                 self.create_oval(*box, outline=GOOD, width=thick)
             elif self.pct > 0.1:
-                self.create_arc(*box, start=90, extent=-3.6 * self.pct, style="arc", outline=GOOD, width=thick)
-        self.create_text(cx, cy - 10, text=self.center, font=font(int(max(28, size * 0.2)), True), fill=INK)
-        self.create_text(cx, cy + size * 0.1 + 8, text=self.caption, font=font(13), fill=MUTED)
+                self.create_arc(
+                    *box,
+                    start=90,
+                    extent=-3.6 * self.pct,
+                    style="arc",
+                    outline=GOOD,
+                    width=thick,
+                )
+        self.create_text(
+            cx,
+            cy - 10,
+            text=self.center,
+            font=font(int(max(28, size * 0.2)), True),
+            fill=INK,
+        )
+        self.create_text(
+            cx, cy + size * 0.1 + 8, text=self.caption, font=font(13), fill=MUTED
+        )
 
 
 class SegmentBar(tk.Canvas):
@@ -206,25 +229,87 @@ class PostureDiagram(tk.Canvas):
         cx, sy = w * 0.46, h * 0.76
         faint = "#B8C1CE"
 
-        self.create_line(cx - 170 * s, sy, cx + 170 * s, sy, fill=faint, width=max(4, 8 * s), capstyle="round")
+        self.create_line(
+            cx - 170 * s,
+            sy,
+            cx + 170 * s,
+            sy,
+            fill=faint,
+            width=max(4, 8 * s),
+            capstyle="round",
+        )
         for dx in (-170, 170):
-            self.create_oval(cx + dx * s - 9 * s, sy - 9 * s, cx + dx * s + 9 * s, sy + 9 * s, fill=faint, outline="")
+            self.create_oval(
+                cx + dx * s - 9 * s,
+                sy - 9 * s,
+                cx + dx * s + 9 * s,
+                sy + 9 * s,
+                fill=faint,
+                outline="",
+            )
         self.create_line(cx, sy, cx, sy - 400 * s, fill=faint, width=2, dash=(6, 6))
 
         # upright neck and head
         gx, gy = cx + 8 * s, sy - 230 * s
-        self.create_oval(gx - 74 * s, gy - 118 * s, gx + 74 * s, gy + 30 * s, outline=GOOD, width=max(2, 3 * s))
-        self.create_line(cx, sy, gx, gy, fill=GOOD, width=max(5, 9 * s), capstyle="round")
-        self.create_oval(gx - 9 * s, gy - 9 * s, gx + 9 * s, gy + 9 * s, fill=GOOD, outline="")
-        self.create_text(gx, gy - 146 * s, text="upright", fill=GOOD, font=font(15, True), anchor="center")
+        self.create_oval(
+            gx - 74 * s,
+            gy - 118 * s,
+            gx + 74 * s,
+            gy + 30 * s,
+            outline=GOOD,
+            width=max(2, 3 * s),
+        )
+        self.create_line(
+            cx, sy, gx, gy, fill=GOOD, width=max(5, 9 * s), capstyle="round"
+        )
+        self.create_oval(
+            gx - 9 * s, gy - 9 * s, gx + 9 * s, gy + 9 * s, fill=GOOD, outline=""
+        )
+        self.create_text(
+            gx,
+            gy - 146 * s,
+            text="upright",
+            fill=GOOD,
+            font=font(15, True),
+            anchor="center",
+        )
 
         # neck leaning forward
         bx, by = cx + 150 * s, sy - 180 * s
-        self.create_oval(bx - 74 * s, by - 118 * s, bx + 74 * s, by + 30 * s, outline=BAD, width=max(2, 3 * s), dash=(7, 5))
-        self.create_line(cx, sy, bx, by, fill=BAD, width=max(5, 9 * s), capstyle="round")
-        self.create_oval(bx - 9 * s, by - 9 * s, bx + 9 * s, by + 9 * s, fill=BAD, outline="")
-        self.create_text(bx, by - 146 * s, text="leaning forward", fill=BAD, font=font(15, True), anchor="center")
+        self.create_oval(
+            bx - 74 * s,
+            by - 118 * s,
+            bx + 74 * s,
+            by + 30 * s,
+            outline=BAD,
+            width=max(2, 3 * s),
+            dash=(7, 5),
+        )
+        self.create_line(
+            cx, sy, bx, by, fill=BAD, width=max(5, 9 * s), capstyle="round"
+        )
+        self.create_oval(
+            bx - 9 * s, by - 9 * s, bx + 9 * s, by + 9 * s, fill=BAD, outline=""
+        )
+        self.create_text(
+            bx,
+            by - 146 * s,
+            text="leaning forward",
+            fill=BAD,
+            font=font(15, True),
+            anchor="center",
+        )
 
         ang = math.degrees(math.atan2(bx - cx, sy - by))
         rr = 120 * s
-        self.create_arc(cx - rr, sy - rr, cx + rr, sy + rr, start=90 - ang, extent=ang, style="arc", outline=BAD, width=max(2, 3 * s))
+        self.create_arc(
+            cx - rr,
+            sy - rr,
+            cx + rr,
+            sy + rr,
+            start=90 - ang,
+            extent=ang,
+            style="arc",
+            outline=BAD,
+            width=max(2, 3 * s),
+        )
