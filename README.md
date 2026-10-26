@@ -73,16 +73,16 @@ Opsi CLI yang tersedia:
 uv run main.py --camera 1 --good-sound correct.mp3 --bad-sound windows-error.mp3
 ```
 
-- `--camera` — indeks kamera (default `0`)
-- `--good-sound` — path mp3 yang dimainkan saat status kembali baik (default `assets/correct.mp3`)
-- `--bad-sound` — path mp3 yang dimainkan saat postur leher atau jarak menjadi buruk (default `assets/windows-error.mp3`)
+- `--camera` ialah indeks kamera (default `0`)
+- `--good-sound` ialah path mp3 yang dimainkan saat status kembali baik (default `assets/correct.mp3`)
+- `--bad-sound` ialah path mp3 yang dimainkan saat postur leher atau jarak menjadi buruk (default `assets/windows-error.mp3`)
 
 Model pose landmarker akan otomatis diunduh ke `assets/pose_landmarker_lite.task` pada run pertama jika belum ada.
 
 ### Kontrol pada halaman deteksi
 
-- `C` — kalibrasi (jadikan posisi saat ini sebagai baseline, mulai pencatatan statistik)
-- `Q` — selesai (hentikan sesi, tampilkan halaman ringkasan)
+- `C` ialah kalibrasi (jadikan posisi saat ini sebagai baseline, mulai pencatatan statistik)
+- `Q` ialah selesai (hentikan sesi, tampilkan halaman ringkasan)
 
 ## Hasil Pengujian
 
