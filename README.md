@@ -100,7 +100,7 @@ Berdasarkan pengujian akhir yang dilakukan tim:
 
 - **7 dari 7 skenario uji** dinyatakan "Sesuai", mencakup: postur baik, postur buruk/menunduk, jarak terlalu dekat, jarak terlalu jauh, sesi pemantauan berkelanjutan, dan kalibrasi ulang pada jarak 60 cm.
 - **Akurasi deteksi skenario: 100% (7/7)**.
-- **Rata-rata galat estimasi jarak: ±1,7%** (contoh: estimasi vs jarak aktual meleset sekitar ±1 cm pada jarak kalibrasi 60 cm).
+- **Rata-rata estimasi jarak: ±1,7%** (contoh: estimasi vs jarak aktual meleset sekitar ±1 cm pada jarak kalibrasi 60 cm).
 - Pada sesi monitoring 37 detik yang didemokan tim, tercatat **100% waktu terlacak sebagai postur baik** dengan **0 episode postur buruk**.
 
 ## Keterbatasan yang diketahui
